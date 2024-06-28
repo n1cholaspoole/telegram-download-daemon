@@ -35,6 +35,8 @@ TELEGRAM_DAEMON_CHANNEL = getenv("TELEGRAM_DAEMON_CHANNEL")
 
 TELEGRAM_DAEMON_SESSION_PATH = getenv("TELEGRAM_DAEMON_SESSION_PATH")
 
+TELEGRAM_DAEMON_WEBSERVER_URL = getenv("TELEGRAM_DAEMON_WEBSERVER_URL")
+
 TELEGRAM_DAEMON_DEST=getenv("TELEGRAM_DAEMON_DEST", "/telegram-downloads")
 TELEGRAM_DAEMON_TEMP=getenv("TELEGRAM_DAEMON_TEMP", "")
 TELEGRAM_DAEMON_DUPLICATES=getenv("TELEGRAM_DAEMON_DUPLICATES", "rename")
@@ -274,7 +276,7 @@ with TelegramClient(getSession(), api_id, api_hash,
                 await client.download_media(event.message, "{0}/{1}.{2}".format(tempFolder,filename,TELEGRAM_DAEMON_TEMP_SUFFIX), progress_callback = download_callback)
                 set_progress(filename, message, 100, 100)
                 move("{0}/{1}.{2}".format(tempFolder,filename,TELEGRAM_DAEMON_TEMP_SUFFIX), "{0}/{1}".format(downloadFolder,filename))
-                await log_reply(message, "{0} ready".format(filename))
+                await log_reply(message, "{0} is ready.\n URL: {1}".format(filename, TELEGRAM_DAEMON_WEBSERVER_URL))
 
                 queue.task_done()
             except Exception as e:
