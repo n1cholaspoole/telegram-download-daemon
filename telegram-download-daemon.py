@@ -275,8 +275,9 @@ with TelegramClient(getSession(), api_id, api_hash,
 
                 await client.download_media(event.message, "{0}/{1}.{2}".format(tempFolder,filename,TELEGRAM_DAEMON_TEMP_SUFFIX), progress_callback = download_callback)
                 set_progress(filename, message, 100, 100)
-                move("{0}/{1}.{2}".format(tempFolder,filename,TELEGRAM_DAEMON_TEMP_SUFFIX), "{0}/{1}".format(downloadFolder,filename))
-                await log_reply(message, "{0} is ready.\n URL: {1}".format(filename, TELEGRAM_DAEMON_WEBSERVER_URL))
+                filteredFileName = fileName.replace(" ", "_")
+                move("{0}/{1}.{2}".format(tempFolder,filename,TELEGRAM_DAEMON_TEMP_SUFFIX), "{0}/{1}".format(downloadFolder,filteredFileName))
+                await log_reply(message, "{0} is ready.\n URL: {1}".format(filename, TELEGRAM_DAEMON_WEBSERVER_URL + filteredFileName))
 
                 queue.task_done()
             except Exception as e:
